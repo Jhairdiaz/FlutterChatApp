@@ -55,8 +55,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     return Container(        
-      padding: EdgeInsets.symmetric(horizontal: 50),
-      margin: EdgeInsets.only(top: 40),
+      padding: EdgeInsets.symmetric(horizontal: 50),      
       child: Column(
         children: <Widget> [
     

@@ -25,7 +25,7 @@ class RegisterPage extends StatelessWidget {
                 _Form(),
                   
                 const Labels( 
-                 ruta: 'register',
+                 ruta: 'login',
                  label1: '¿Ya tienes una cuenta?', 
                  label2: 'Ingresa ahora!'
                 ),
@@ -56,8 +56,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     return Container(        
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      margin: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 50),      
       child: Column(
         children: <Widget> [
     

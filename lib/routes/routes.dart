@@ -15,5 +15,3 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
 
 };
 
-
-

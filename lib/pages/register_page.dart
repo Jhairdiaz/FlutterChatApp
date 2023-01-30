@@ -1,5 +1,10 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
 
+import 'package:chat/services/auth_service.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../helpers/mostrar_alerta.dart';
 import '../widgets/button_login.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/labels.dart';
@@ -55,6 +60,9 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService  = Provider.of<AuthService>(context);
+
     return Container(        
       padding: const EdgeInsets.symmetric(horizontal: 50),      
       child: Column(
@@ -82,13 +90,25 @@ class __FormState extends State<_Form> {
           ),
           
           ButtonLogin(
-            text: 'Ingrese',
-            onPressed: () { 
-              print(emailCtrl.text);
-              print(passCtrl);
-            },
-          )
-         
+            text: 'Crear cuenta',
+            onPressed: authService.autenticando 
+              ? null 
+              : () async {            
+              
+                FocusScope.of(context).unfocus();
+
+                final registroOk = await authService.register(nameCtrl.text.trim(), emailCtrl.text.trim(), passCtrl.text );
+
+                if( registroOk == true) {
+                  //Navegar al home
+                  Navigator.pushReplacementNamed(context, 'usuarios');
+
+                }else {
+                  // Mostrar Alerta
+                  mostrarAlerta(context, 'Registro incorrecto', registroOk.toString());
+                }
+              }
+            )
         ],
       ),
     );

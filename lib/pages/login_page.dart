@@ -1,12 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:chat/services/auth_service.dart';
 
 import '../widgets/button_login.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/labels.dart';
 import '../widgets/logo.dart';
 import '../widgets/term_condic.dart';
+import 'package:chat/helpers/mostrar_alerta.dart';
 
-class LoginPage extends StatelessWidget {     
+class LoginPage extends StatelessWidget {   
+      
   
   @override
   Widget build(BuildContext context) {
@@ -54,6 +61,9 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService  = Provider.of<AuthService>(context);
+
     return Container(        
       padding: EdgeInsets.symmetric(horizontal: 50),      
       child: Column(
@@ -75,9 +85,28 @@ class __FormState extends State<_Form> {
           
           ButtonLogin(
             text: 'Ingrese',
-            onPressed: () { 
-              print(emailCtrl.text);
-              print(passCtrl);
+            onPressed: authService.autenticando 
+              ? null 
+              : () async {            
+              
+                FocusScope.of(context).unfocus();
+
+                final loginOk = await authService.login(emailCtrl.text.trim(), passCtrl.text );
+
+                if( loginOk ) {
+
+                  //Navegar al home
+                  Navigator.pushReplacementNamed(context, 'usuarios');
+
+                }else {
+                  // Mostrar Alerta
+                  mostrarAlerta(
+                    context, 
+                    'Login incorrecto', 
+                    'Revise sus credenciales nuevamente'
+                  );                  
+
+                }
             },
           )
          

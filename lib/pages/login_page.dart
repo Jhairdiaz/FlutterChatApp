@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:chat/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -63,6 +64,7 @@ class __FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final authService  = Provider.of<AuthService>(context);
+    final socketService  = Provider.of<SocketService>(context);
 
     return Container(        
       padding: EdgeInsets.symmetric(horizontal: 50),      
@@ -95,10 +97,11 @@ class __FormState extends State<_Form> {
 
                 if( loginOk ) {
 
+                  socketService.connect();
                   //Navegar al home
                   Navigator.pushReplacementNamed(context, 'usuarios');
 
-                }else {
+                } else {
                   // Mostrar Alerta
                   mostrarAlerta(
                     context, 
